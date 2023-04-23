@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block content %}
+<h1 class="display-4 fw-normal pb-2 border-bottom ">
+    <p align="center">Актуальные запросы</h1>
+{% if current_user.is_authenticated %}
+<a href=" news" class="btn btn-primary">Попросить о помощи</a>
+{% endif %}
+{% for item in news %}
+<div class="col-md6 border rounded">
+    <h2>{{ item.title }}</h2>
+    <div>
+        {{ item.content }}
+    </div>
+    <div>
+        Автор - {{ item.user.name }}
+    </div>
+    <div>
+        Дата написания - {{ item.created_date }}
+    </div>
+    {% if current_user.is_authenticated and current_user == item.user %}
+    <div>
+        <a href="/news/{{ item.id }}" class="btn btn-primary">Изменить</a>
+        <a href="/news_delete/{{ item.id }}" class="btn btn-primary">Удалить</a>
+    </div>
+    {% endif %}
+</div>
+{% endfor %}
+{% endblock %}
